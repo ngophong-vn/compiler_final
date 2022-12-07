@@ -6,10 +6,14 @@
 PRINT("Well come to our compiler final project demonstration")
 
 ~ Defind variables
-LET num1 = 6
-LET num2 = 3
-LET num3 = 16
-LET str = "This is a string."
+PRINT("Input num1:")
+LET num1 = INPUT_INT()
+PRINT("Input num2:")
+LET num2 = INPUT_INT()
+PRINT("Input num3:")
+LET num3 = INPUT_INT()
+PRINT("Input a string:")
+LET str = INPUT()
 LET logicT = TRUE
 LET logicF = FALSE
 LET varNULL = NULL

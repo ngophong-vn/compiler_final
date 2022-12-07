@@ -1,6 +1,6 @@
-LET num1 = 5
-LET num2 = 5
-LET num3 = 10
+LET num1 = INPUT_INT()
+LET num2 = INPUT_INT()
+LET num3 = INPUT_INT()
 PRINT("num1 :")
 PRINT(num1)
 PRINT("num2 :")
