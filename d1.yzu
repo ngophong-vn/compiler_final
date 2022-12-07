@@ -7,17 +7,33 @@ PRINT("Well come to our compiler final project demonstration")
 
 ~ Defind variables
 LET num1 = 6
-LET num2 = 4
+LET num2 = 3
+LET num3 = 16
 LET str = "This is a string."
+LET logicT = TRUE
+LET logicF = FALSE
+LET varNULL = NULL
 
 
 
 ~ Print content to the screen
+PRINT("Print a string:")
 PRINT(str)
+PRINT("**********")
+PRINT("Print two boolean variables true and false:")
+PRINT(logicT)
+PRINT(logicF)
+PRINT("**********")
+PRINT("Print variable: NULL")
+PRINT(varNULL)
+PRINT("**********")
 PRINT("num1:")
 PRINT(num1)
 PRINT("num2:")
 PRINT(num2)
+PRINT("num3:")
+PRINT(num3)
+
 
 PRINT("num1+num2 =")
 PRINT(num1+num2)
@@ -34,14 +50,17 @@ PRINT(num1/num2)
 PRINT("num1^num2 =")
 PRINT(num1^num2)
 
-PRINT("num1 mod num2 =")
-PRINT(num1%num2)
+PRINT("num3 mod num2 =")
+PRINT(num3 % num2)
 
-PRINT("square root of num2 is:")
-PRINT(num2|2)
+PRINT("square root of num3 is:")
+PRINT(num3|2)
 
 PRINT("END")
-~RUN("demo1.yzu")
+
+~RUN("d1.yzu")
+~RUN("d2.yzu")
+~RUN("d3.yzu")
 
 
 

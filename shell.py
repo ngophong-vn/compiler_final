@@ -1,7 +1,7 @@
 import basic
 
 while True:
-	text = input('Calabarpytho>> ')
+	text = input('Calabar>> ')
 	if text.strip() == "": continue
 	result, error = basic.run('<stdin>', text)
 

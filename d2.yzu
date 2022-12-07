@@ -1,0 +1,36 @@
+LET num1 = 5
+LET num2 = 5
+LET num3 = 10
+PRINT("num1 :")
+PRINT(num1)
+PRINT("num2 :")
+PRINT(num2)
+PRINT("num3 :")
+PRINT(num3)
+
+PRINT("num1 > num2:")
+PRINT(num1 > num2)
+PRINT("num1 < num3:")
+PRINT(num1 < num3)
+PRINT("num1 != num3")
+PRINT(num1 != num3)
+PRINT("(num1 + num2) == num3")
+PRINT((num1 + num2) == num3)
+PRINT("num1 >= num3")
+PRINT(num1 >= num3)
+PRINT("num1 <= num3")
+PRINT(num1 <= num3)
+
+PRINT("num1 == num2 AND num1 == num3")
+PRINT(num1 == num2 AND num1 == num3)
+PRINT("num1 == num2 OR num2 != num3")
+PRINT(num1 == num3 OR num2 != num3)
+
+PRINT("NOT 0 is:")
+PRINT(NOT 0)
+
+PRINT("Condition statements:")
+IF num1 < num3 THEN PRINT("num1 is smaller than num3") ELIF num1 > num3 THEN PRINT("num1 is greater than num3") ELSE PRINT("num1 is equal to num3")
+
+
+PRINT("END")
