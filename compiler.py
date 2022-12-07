@@ -2210,7 +2210,7 @@ global_symbol_table.set("APPEND", BuiltInFunction.append)
 global_symbol_table.set("POP", BuiltInFunction.pop)
 global_symbol_table.set("EXTEND", BuiltInFunction.extend)
 global_symbol_table.set("LEN", BuiltInFunction.len)
-global_symbol_table.set("RUN", BuiltInFunction.run)
+global_symbol_table.set("COMPILE", BuiltInFunction.run)
 
 def run(fn, text):
   # Generate tokens

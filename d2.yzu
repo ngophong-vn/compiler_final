@@ -1,5 +1,8 @@
+PRINT("Input num1 :")
 LET num1 = INPUT_INT()
+PRINT("Input num2 :")
 LET num2 = INPUT_INT()
+PRINT("Input num3 :")
 LET num3 = INPUT_INT()
 PRINT("num1 :")
 PRINT(num1)
