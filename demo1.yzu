@@ -1,0 +1,47 @@
+~ This is the demonstration of some basic features:
+~ Define variables
+~ Basic  arithmetic 
+~ Print content to the screen
+
+PRINT("Well come to our compiler final project demonstration")
+
+~ Defind variables
+LET num1 = 6
+LET num2 = 4
+LET str = "This is a string."
+
+
+
+~ Print content to the screen
+PRINT(str)
+PRINT("num1:")
+PRINT(num1)
+PRINT("num2:")
+PRINT(num2)
+
+PRINT("num1+num2 =")
+PRINT(num1+num2)
+
+PRINT("num1-num2 =")
+PRINT(num1-num2)
+
+PRINT("num1*num2 =")
+PRINT(num1*num2)
+
+PRINT("num1/num2 =")
+PRINT(num1/num2)
+
+PRINT("num1^num2 =")
+PRINT(num1^num2)
+
+PRINT("num1 mod num2 =")
+PRINT(num1%num2)
+
+PRINT("square root of num2 is:")
+PRINT(num2|2)
+
+PRINT("END")
+~RUN("demo1.yzu")
+
+
+

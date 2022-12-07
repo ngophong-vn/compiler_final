@@ -97,34 +97,40 @@ class Position:
 # TOKENS
 #######################################
 
-TT_INT				= 'INT'
-TT_FLOAT    	= 'FLOAT'
-TT_STRING			= 'STRING'
-TT_IDENTIFIER	= 'IDENTIFIER'
-TT_KEYWORD		= 'KEYWORD'
-TT_PLUS     	= 'PLUS'
-TT_MINUS    	= 'MINUS'
-TT_MUL      	= 'MUL'
-TT_DIV      	= 'DIV'
-TT_POW				= 'POW'
-TT_EQ					= 'EQ'
-TT_LPAREN   	= 'LPAREN'
-TT_RPAREN   	= 'RPAREN'
-TT_LSQUARE    = 'LSQUARE'
-TT_RSQUARE    = 'RSQUARE'
-TT_EE					= 'EE'
-TT_NE					= 'NE'
-TT_LT					= 'LT'
-TT_GT					= 'GT'
-TT_LTE				= 'LTE'
-TT_GTE				= 'GTE'
-TT_COMMA			= 'COMMA'
-TT_ARROW			= 'ARROW'
-TT_NEWLINE		= 'NEWLINE'
-TT_EOF				= 'EOF'
+TT_INT = 'INT'
+TT_FLOAT = 'FLOAT'
+TT_STRING = 'STRING'
+TT_IDENTIFIER = 'IDENTIFIER'
+TT_KEYWORD = 'KEYWORD'
+TT_PLUS = 'PLUS'
+TT_MINUS = 'MINUS'
+TT_MUL = 'MUL'
+TT_DIV = 'DIV'
+TT_POW = 'POW'
+## add square root
+TT_SR = 'SQUAREROOT'
+##*****************
+## add mod
+TT_MOD = 'MOD'
+## ****************
+TT_EQ = 'EQ'
+TT_LPAREN = 'LPAREN'
+TT_RPAREN = 'RPAREN'
+TT_LSQUARE = 'LSQUARE'
+TT_RSQUARE = 'RSQUARE'
+TT_EE = 'EE'
+TT_NE = 'NE'
+TT_LT = 'LT'
+TT_GT = 'GT'
+TT_LTE = 'LTE'
+TT_GTE = 'GTE'
+TT_COMMA = 'COMMA'
+TT_ARROW = 'ARROW'
+TT_NEWLINE = 'NEWLINE'
+TT_EOF = 'EOF'
 
 KEYWORDS = [
-  'VAR',
+  'LET',
   'AND',
   'OR',
   'NOT',
@@ -185,7 +191,7 @@ class Lexer:
     while self.current_char != None:
       if self.current_char in ' \t':
         self.advance()
-      elif self.current_char == '#':
+      elif self.current_char == '~':
         self.skip_comment()
       elif self.current_char in ';\n':
         tokens.append(Token(TT_NEWLINE, pos_start=self.pos))
@@ -207,7 +213,14 @@ class Lexer:
       elif self.current_char == '/':
         tokens.append(Token(TT_DIV, pos_start=self.pos))
         self.advance()
-        ##new_pow
+        # new mod
+      elif self.current_char == '%':
+        tokens.append(Token(TT_MOD, pos_start=self.pos))
+        self.advance()
+        #
+      elif self.current_char == '|':
+        tokens.append(Token(TT_SR, pos_start=self.pos))
+        self.advance()
       elif self.current_char == '^':
         tokens.append(Token(TT_POW, pos_start=self.pos))
         self.advance()
@@ -641,14 +654,14 @@ class Parser:
     if res.error:
       return res.failure(InvalidSyntaxError(
         self.current_tok.pos_start, self.current_tok.pos_end,
-        "Expected 'RETURN', 'CONTINUE', 'BREAK', 'VAR', 'IF', 'FOR', 'WHILE', 'FUN', int, float, identifier, '+', '-', '(', '[' or 'NOT'"
+        "Expected 'RETURN', 'CONTINUE', 'BREAK', 'LET', 'IF', 'FOR', 'WHILE', 'FUN', int, float, identifier, '+', '-', '(', '[' or 'NOT'"
       ))
     return res.success(expr)
 
   def expr(self):
     res = ParseResult()
 
-    if self.current_tok.matches(TT_KEYWORD, 'VAR'):
+    if self.current_tok.matches(TT_KEYWORD, 'LET'):
       res.register_advancement()
       self.advance()
 
@@ -679,7 +692,7 @@ class Parser:
     if res.error:
       return res.failure(InvalidSyntaxError(
         self.current_tok.pos_start, self.current_tok.pos_end,
-        "Expected 'VAR', 'IF', 'FOR', 'WHILE', 'FUN', int, float, identifier, '+', '-', '(', '[' or 'NOT'"
+        "Expected 'LET', 'IF', 'FOR', 'WHILE', 'FUN', int, float, identifier, '+', '-', '(', '[' or 'NOT'"
       ))
 
     return res.success(node)
@@ -710,7 +723,7 @@ class Parser:
     return self.bin_op(self.term, (TT_PLUS, TT_MINUS))
 
   def term(self):
-    return self.bin_op(self.factor, (TT_MUL, TT_DIV))
+    return self.bin_op(self.factor, (TT_MUL, TT_DIV, TT_MOD, TT_SR))
 
   def factor(self):
     res = ParseResult()
@@ -727,7 +740,7 @@ class Parser:
 
   def power(self):
     return self.bin_op(self.call, (TT_POW, ), self.factor)
-
+  
   def call(self):
     res = ParseResult()
     atom = res.register(self.atom())
@@ -746,7 +759,7 @@ class Parser:
         if res.error:
           return res.failure(InvalidSyntaxError(
             self.current_tok.pos_start, self.current_tok.pos_end,
-            "Expected ')', 'VAR', 'IF', 'FOR', 'WHILE', 'FUN', int, float, identifier, '+', '-', '(', '[' or 'NOT'"
+            "Expected ')', 'LET', 'IF', 'FOR', 'WHILE', 'FUN', int, float, identifier, '+', '-', '(', '[' or 'NOT'"
           ))
 
         while self.current_tok.type == TT_COMMA:
@@ -853,7 +866,7 @@ class Parser:
       if res.error:
         return res.failure(InvalidSyntaxError(
           self.current_tok.pos_start, self.current_tok.pos_end,
-          "Expected ']', 'VAR', 'IF', 'FOR', 'WHILE', 'FUN', int, float, identifier, '+', '-', '(', '[' or 'NOT'"
+          "Expected ']', 'LET', 'IF', 'FOR', 'WHILE', 'FUN', int, float, identifier, '+', '-', '(', '[' or 'NOT'"
         ))
 
       while self.current_tok.type == TT_COMMA:
@@ -1335,8 +1348,13 @@ class Value:
 
   def dived_by(self, other):
     return None, self.illegal_operation(other)
+  ## added
+  def mod_by(self, other):
+    return None, self.illegal_operation(other)
 
   def powed_by(self, other):
+    return None, self.illegal_operation(other)
+  def square_root(self, other = 1):
     return None, self.illegal_operation(other)
 
   def get_comparison_eq(self, other):
@@ -1387,7 +1405,8 @@ class Number(Value):
   def __init__(self, value):
     super().__init__()
     self.value = value
-
+  def square_root(self):
+      return Number(math.sqrt(self.value)).set_context(self.context), None
   def added_to(self, other):
     if isinstance(other, Number):
       return Number(self.value + other.value).set_context(self.context), None
@@ -1416,6 +1435,12 @@ class Number(Value):
         )
 
       return Number(self.value / other.value).set_context(self.context), None
+    else:
+      return None, Value.illegal_operation(self, other)
+  
+  def mod_by(self, other):
+    if isinstance(other, Number):
+      return Number(self.value % other.value).set_context(self.context), None
     else:
       return None, Value.illegal_operation(self, other)
 
@@ -1573,7 +1598,9 @@ class List(Value):
         )
     else:
       return None, Value.illegal_operation(self, other)
-  
+  def square_root(self):
+    new_list = self.copy()
+    return new_list, None
   def copy(self):
     copy = List(self.elements)
     copy.set_pos(self.pos_start, self.pos_end)
@@ -1978,6 +2005,10 @@ class Interpreter:
       result, error = left.multed_by(right)
     elif node.op_tok.type == TT_DIV:
       result, error = left.dived_by(right)
+    elif node.op_tok.type == TT_SR:
+      result, error = left.square_root()    
+    elif node.op_tok.type == TT_MOD:
+      result, error = left.mod_by(right)
     elif node.op_tok.type == TT_POW:
       result, error = left.powed_by(right)
     elif node.op_tok.type == TT_EE:
