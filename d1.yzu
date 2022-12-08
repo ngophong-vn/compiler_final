@@ -62,9 +62,3 @@ PRINT(num3|2)
 
 PRINT("END")
 
-~RUN("d1.yzu")
-~RUN("d2.yzu")
-~RUN("d3.yzu")
-
-
-
